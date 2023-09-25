@@ -1,4 +1,4 @@
-# create-app-template
+# okcli-app-templates
 
 Sipmle project to get all the frontend framwork templates in one diretory 
 
@@ -8,7 +8,7 @@ why: I use it for testing
 
 - fresh
 ```sh
-npx create-app-template fresh
+npx okcli-app-templates fresh
 ```
 Creates the templates using the framework's cli scripts.
 
@@ -24,7 +24,7 @@ options
  ```
 ex:
 ```sh
-npx create-app-template fresh --frameworks react --react nextjs vite-react-spa rakkas --dir src/test-apps
+npx okcli-app-templates fresh --frameworks react --react nextjs vite-react-spa rakkas --dir src/test-apps
 ```
 
 This vcan be used to narrow down the projects to be scaffolded , providing none will get everything
@@ -34,7 +34,7 @@ This vcan be used to narrow down the projects to be scaffolded , providing none 
 - clone
   
 ```sh
-  npx create-app-template clone
+  npx okcli-app-templates clone
   ```
 This will do a git clone from the repository
 ```sh

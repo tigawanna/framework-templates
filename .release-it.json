@@ -1,11 +1,11 @@
 {
   "hooks": {
-    "after:bump":"npx auto-changelog -p"
+    "after:bump": "npx auto-changelog -p"
   },
   "git": {
     "changelog": "git log --pretty=format:\"* %s (%h)\" ${from}...${to}",
     "requireCleanWorkingDir": false,
-    "requireBranch":"main",
+    "requireBranch": "main",
     "requireUpstream": true,
     "requireCommits": false,
     "requireCommitsFail": true,
@@ -58,5 +58,4 @@
       "pr": ":rocket: _This pull request is included in v${version}. See [${releaseName}](${releaseUrl}) for release notes._"
     }
   }
-
 }
