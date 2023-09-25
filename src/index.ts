@@ -5,11 +5,22 @@ import { addCommand } from "./commands/add/add";
 import { getPkgJson } from "@/utils/helpers/pkg-json";
 import { printHelpers } from "@/utils/helpers/print-tools";
 import { testCommand } from "./commands/test/test";
+import { z } from "zod";
+import { freshCommand } from "./commands/fresh/fresh";
+import { cloneCommand } from "./commands/clone/clone";
+
+
+const OptionsSchema = z.object({
+  framework: z.array(z.string()),
+});
 
 
 const program = new Command();
 
-program.name("okcli").description("cli toolkit for frontend development");
+program
+.name("create-framework-template")
+.description("cli tool for creating scaffolding javascript frameworks , for testing purposes")
+
 program.hook("preSubcommand", async(_) => {
 const pkg_json = await getPkgJson();
   if (!pkg_json) {
@@ -21,7 +32,9 @@ if(pkg_json.workspaces){
   }
 })
 program.addCommand(addCommand);
-program.addCommand(testCommand);
+program.addCommand(freshCommand);
+program.addCommand(cloneCommand);
+// program.addCommand(testCommand);
 
 // program.addCommand(defaultCommand);
 program.command('404', { isDefault: true })

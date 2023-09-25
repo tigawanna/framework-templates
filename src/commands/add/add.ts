@@ -1,10 +1,5 @@
 
 import { Command } from "commander";
-import { TAddArgs, TAddOptions, add_command_args, add_command_options } from "./add-commnad-args";
-import { multiselectPrompt } from "#/src/utils/helpers/clack/prompts";
-import { promptToInstall } from "#/src/utils/prompts/install";
-import { getBonitaConfig } from "#/src/utils/config/helpers";
-import { TOkCliConfigSchema } from "#/src/utils/config/okcli";
 import { printHelpers } from "#/src/utils/helpers/print-tools";
 
 
@@ -14,12 +9,13 @@ export const addCommand = program
   .command("add")
   .description("add packages to your project")
   // .argument("[inputs...]", "string to split")
+  .option("-fw, --framework <framework...>", "frameworks to add")
   .option('-y, --yes', 'Accept all defaults', false)
-  .option('-w, --who', 'Accept all defaults', "daddy")
   .action(async (options) => {
     // const config = await getBonitaConfig();
     printHelpers.success("add command with options", options)
   // printHelpers.debug("add command with options", options)
+  
 
 
   });
