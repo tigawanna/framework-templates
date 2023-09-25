@@ -1,17 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { addCommand } from "./commands/add/add";
 import { getPkgJson } from "@/utils/helpers/pkg-json";
 import { printHelpers } from "@/utils/helpers/print-tools";
-import { z } from "zod";
 import { freshCommand } from "./commands/fresh/fresh";
 import { cloneCommand } from "./commands/clone/clone";
 
 
-const OptionsSchema = z.object({
-  framework: z.array(z.string()),
-});
 
 
 const program = new Command();
@@ -30,12 +25,10 @@ if(pkg_json.workspaces){
     process.exit(1)
   }
 })
-program.addCommand(addCommand);
+
 program.addCommand(freshCommand);
 program.addCommand(cloneCommand);
-// program.addCommand(testCommand);
 
-// program.addCommand(defaultCommand);
 program.command('404', { isDefault: true })
     .description("catch all command")
     .argument('[args...]', 'Catch all arguments/flags provided.')
