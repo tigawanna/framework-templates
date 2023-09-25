@@ -4,9 +4,15 @@ import { loadingSpinner } from "../clack/spinner";
 import {cp, readdir} from "fs/promises";
 import { existsSync } from "fs";
 import path from "path";
+import { removeDirectory } from "../fs/directories";
+import { printHelpers } from "../print-tools";
 
 export async function cloneRepository(url: string, name: string) {
   try {
+    const destination = path.resolve(name);
+    if (existsSync(destination)) {
+      await removeDirectory(destination)
+    }
     await execa("git", ["clone", url, name]);
     return cwd();
   } catch (error: any) {
@@ -24,19 +30,24 @@ interface IGetRepoAndExtractADirectory{
 export async function getRepoAndExtractADirectory({url, project_name, dir_to_extract, path_to_extract_to}: IGetRepoAndExtractADirectory){
   const spinner = loadingSpinner()
   try {
-    spinner.add("clone", { text: "cloning " + url });
+    spinner.add("clone", { text: "Getting templates " + url });
     const cloned_repo =  await cloneRepository(url, project_name);
-    const desired_dir = path.resolve(cloned_repo + "/" + dir_to_extract)
+    const desired_dir = path.resolve(project_name + "/" + dir_to_extract)
+    const destination = path.resolve(path_to_extract_to)
     if(existsSync(desired_dir)){
-      const destination = path.resolve(path_to_extract_to)
-      await cp(desired_dir, destination)
+      if(existsSync(destination)){
+       await removeDirectory(destination)
+      }
+
+        await cp(desired_dir, destination, { recursive: true })
+   
     }
     
-  spinner.succeed("successful clone", { text: "successfully cloned" + url });
+    spinner.succeed("success ", { text: "successfully added templates to "  + destination });
 
   return cwd();
   } catch (error: any) {
-    spinner.succeed("error cloning", { text: error.message });
-    throw new Error("error cloning repository " + error.message);
+    spinner.fail("error getting templates", { text: error.message });
+    throw new Error("error getting templates " + error.message);
   }
 }

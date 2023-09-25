@@ -21,38 +21,47 @@ export async function readDirectories(directoryPath: string) {
 export function unzipFile(zipFilePath: string, outputPath: string) {
   const spinner = loadingSpinner()
   try {
+    spinner.add("main", { text: "unzipping " + zipFilePath });
     const zip = new AdmZip(zipFilePath);
     zip.extractAllTo(outputPath, true);
-    printHelpers.success("File unzipped successfully");
+    spinner.succeed("main", { text: "unzipped " + zipFilePath });
   } catch (error) {
+    spinner.fail("main", { text: "error unzipping " + zipFilePath });
     throw error;
   }
 }
-
-export async function removeDirectory(directoryPath: string) {
+export async function removeDirectory(directoryPath: string,maxAttempts=4) {
   // const delete_dir_spinner = loadingSpinner();
   // delete_dir_spinner.add("main", { text: "removing directory" });
-  const maxAttempts = 10;
-  const delayTime = 1000;
+  // const maxAttempts = 4; // Updated to 4
+  const delayTime = 2000;
   try {
     await rm(directoryPath, { recursive: true });
     printHelpers.success(directoryPath + " removed successfully");
   } catch (error: any) {
     if (error.code === "EBUSY") {
-      printHelpers.error(`Error removing ${directoryPath} directory:`, error+" retrying");
+      printHelpers.error(`Error removing ${directoryPath} directory:`, error + " retrying");
       await delay(delayTime);
-      await removeDirectory(directoryPath);
+      if (maxAttempts > 0) { // Check if maxAttempts is greater than 0
+        printHelpers.warning(`Attempt ${maxAttempts} to removing ${directoryPath} directory`);
+        await removeDirectory(directoryPath, maxAttempts - 1); // Recursive call with updated maxAttempts
+      } else {
+        printHelpers.error(`Max attempts reached for removing ${directoryPath} directory`);
+        throw error;
+      }
     } else {
       printHelpers.error(`Error removing ${directoryPath} directory:`, error);
       throw error;
     }
-  
   }
 }
 
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+
+
 
 export async function mergeOrCreateDirs(
   originPath: string,
