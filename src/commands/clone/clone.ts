@@ -1,4 +1,4 @@
-import { cloneRepository } from "#/src/utils/helpers/repos/get-repo";
+import { cloneRepository, getRepoAndExtractADirectory } from "#/src/utils/helpers/repos/get-repo";
 import { Command } from "commander";
 
 const program = new Command();
@@ -10,8 +10,12 @@ export const cloneCommand = program
   .option("-fw, --framework <framework...>", "frameworks to clone")
   .option('-y, --yes', 'Accept all defaults', false)
   .action(async (options) => {
-    await cloneRepository("https://github.com/tigawanna/framework-templates.git","fw-templates")
-
+    // await cloneRepository("https://github.com/tigawanna/framework-templates.git","fw-templates")
+    await getRepoAndExtractADirectory(
+      {url:"https://github.com/tigawanna/framework-templates.git",
+      project_name:"fw-temp",
+      dir_to_extract:"templates",
+      path_to_extract_to:"test-templates"})
   });
 
 
