@@ -1,3 +1,4 @@
+import { cloneRepository } from "#/src/utils/helpers/repos/get-repo";
 import { Command } from "commander";
 
 const program = new Command();
@@ -9,10 +10,7 @@ export const cloneCommand = program
   .option("-fw, --framework <framework...>", "frameworks to clone")
   .option('-y, --yes', 'Accept all defaults', false)
   .action(async (options) => {
-    // const config = await getBonitaConfig();
-    // printHelpers.success("clone command with options", options)
-  // printHelpers.debug("clone command with options", options)
-
+    await cloneRepository("https://github.com/tigawanna/framework-templates.git","fw-templates")
 
   });
 
