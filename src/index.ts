@@ -4,7 +4,6 @@ import { Command } from "commander";
 import { addCommand } from "./commands/add/add";
 import { getPkgJson } from "@/utils/helpers/pkg-json";
 import { printHelpers } from "@/utils/helpers/print-tools";
-import { testCommand } from "./commands/test/test";
 import { z } from "zod";
 import { freshCommand } from "./commands/fresh/fresh";
 import { cloneCommand } from "./commands/clone/clone";

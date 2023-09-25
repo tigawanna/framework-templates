@@ -3,7 +3,7 @@ import { printHelpers } from "@/utils/helpers/print-tools";
 import { z } from "zod";
 
 
-const fresh_args = ["tailwind", "panda", "tanstack"] as const;
+const fresh_args = [""] as const;
 const freshArgsShema = z.array(z.enum(fresh_args));
 export type TfreshArgs = z.infer<typeof freshArgsShema>;
 
